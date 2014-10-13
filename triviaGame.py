@@ -7,7 +7,7 @@
 # 10 points for each correct answer, and the player is given their score at the 
 # end of the game. 
 
-questions = [(("In what city would you find the Eiffel Tower?"), {"a. New York", "b. London", "c. Paris", "d. Amsterdam"), "c"),
+questions = [(("In what city would you find the Eiffel Tower?"), ("a. New York", "b. London", "c. Paris", "d. Amsterdam"), "c"),
              (("What famous document begins: 'When in the course of human events...'?"), ("a. The US Constitution", "b. The US Declaration of Independence", "c. Magna Carta", "d. The Communist Manifesto"), "b"),
              (("Who was the last president of the Soviet Union?"), "a. Mikail Gorbachev", "b. Nikita Khrushchev", "c. Vladimir Lenin", "d. Joseph Stalin"), "a"),
              (("According to the nursery rhyme, what were Jack and Jill fetching?"), "a. Milk", "b. Water", "c. Orange Juice", "d. Apple Juice"), "b"),
