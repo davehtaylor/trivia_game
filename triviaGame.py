@@ -3,9 +3,8 @@
 # This is a trivia game written in Python.
 #
 # The player is presented with 10 questions, each with mulitple choice answers. 
-# The questions are presented to the player at random. A score is kept, awarding 
-# 10 points for each correct answer, and the player is given their score at the 
-# end of the game. 
+# A score is kept, awarding 10 points for each correct answer, and the player 
+# is given their score at the end of the game. 
 
 score = 0             # Initialize Player's score
 questNum = 1          # Initialize variable to show the question number as the game goes on
