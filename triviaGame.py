@@ -7,8 +7,6 @@
 # 10 points for each correct answer, and the player is given their score at the 
 # end of the game. 
 
-import random         # Import random so we can choose from the questionsAndAnswers[] list at random
-
 score = 0             # Initialize Player's score
 questNum = 1          # Initialize variable to show the question number as the game goes on
 
@@ -29,14 +27,14 @@ questionsAndAnswers = [(("In what city would you find the Eiffel Tower?"), ("a. 
 # the correct answer in the multiple choice answers.
 
 print "\n"
-print "*****************************************************"           # Pretty title banner when game starts
+print "*****************************************************"          # Pretty title banner when game starts
 print "*                                                   *"
 print "*                    Trivia Game                    *"
 print "*                                                   *"
 print "*****************************************************"
 print "\n"
 
-print "This is a general triva game. You will be presented with"        # Game instructions
+print "This is a general triva game. You will be presented with"       # Game instructions
 print "10 questions. Each question is multiple choice. Enter the"
 print "letter of the answer you think is correct. For each correct"
 print "answer, you will receive 10 points."
@@ -44,11 +42,10 @@ print "\n"
 print "Let's get started!"
 print "\n"
 
-for (question, choices, answer) in questionsAndAnswers:                 # Loop through the questionsAndAnswers[] list. Apply the variable names 'question', 'choices', and 'answer' to the tuples.
-    random.choice(questionsAndAnswers)                                  # Choose a question set at random
-    print "Question " + str(questNum) + ": "                            # Print out the question
+for (question, choices, answer) in questionsAndAnswers:                # Loop through the questionsAndAnswers[] list. Apply the variable names 'question', 'choices', and 'answer' to the tuples.
+    print "Question " + str(questNum) + ": "                           # Print out the question
     print question
-    print choices[0]                                                    # Print out the choices
+    print choices[0]                                                   # Print out the choices
     print choices[1]
     print choices[2] 
     print choices[3]
