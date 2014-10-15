@@ -52,10 +52,13 @@ for (question, choices, answer) in questionsAndAnswers:                         
     print choices[3]
     print "\n"
     response = raw_input("Your answer: ")                                                       # Get the players response
+    while response not in ['a','b','c','d']:                                                    # Only allow the player to enter 'a', 'b', 'c', or 'd'
+        print "I'm sorry, I don't understand. Please type 'a', 'b', 'c', or 'd'."
+        response = raw_input("Your answer: ")
     if response != answer:                                                                      # Test if the player's response matches the answer        
         print "\n\n*** I'm sorry, that's not correct. The correct answer is '" + answer + "'. ***\n\n"    # If the player gets it wrong, tell them so, and then tell them the correct answer
     else:
-        print "\n\n*** That's correct! ***\n\n"                                                   # If their reponse is correct, tell them so
+        print "\n\n*** That's correct! ***\n\n"                                                 # If their reponse is correct, tell them so
         score += 10                                                                             # Also, if it were correct, add 10 points to their score. And then the loop continues going to the next question.
     questNum +=1                                                                                # Increment the question number
 
