@@ -9,21 +9,29 @@
 score = 0             # Initialize Player's score
 questNum = 1          # Initialize variable to show the question number as the game goes on
 
-questionsAndAnswers = [(("In what city would you find the Eiffel Tower?"), ("a. New York", "b. London", "c. Paris", "d. Amsterdam"), ("c")), 
-                       (("What famous document begins: 'When in the course of human events...'?"), ("a. The US Constitution", "b. The US Declaration of Independence", "c. Magna Carta", "d. The Communist Manifesto"), ("b")), 
-                       (("Who was the last president of the Soviet Union?"), ("a. Mikail Gorbachev", "b. Nikita Khrushchev", "c. Vladimir Lenin", "d. Joseph Stalin"), ("a")), 
-                       (("According to the nursery rhyme, what were Jack and Jill fetching?"), ("a. Milk", "b. Water", "c. Orange Juice", "d. Apple Juice"), ("b")), 
-                       (("Which fruit inspired Sir Isaac Newton?"), ("a. Orange", "b. Kiwi", "c. Banana", "d. Apple"), ("d")), 
-                       (("What 1975 blockbuster sees Roy Scheider utter: 'We need a bigger boat'?"), ("a. Jaws", "b. Apocalypse Now", "c. Titanic", "d. Das Boot"), ("a")), 
-                       (("What movie has Bob Hoskins seething: 'A toon killed my brother'?"), ("a. Space Jam", "b. Toy Story", "c. Who Framed Roger Rabbit?", "d. Cool World"), ("c")), 
-                       (("What kind of animal is the emblem of the US Democratic political party?"), ("a. Donkey", "b. Elephant", "c. Wolverine", "d. Honey Badger"), ("a")), 
-                       (("What breakfast cereal was Sonny the Cuckoo Bird 'cuckoo for'?"), ("a. Cocoa Puffs", "b. Count Chocula", "c. Coco Pebbles", "d. Kix"), ("a")), 
-                       (("John Davidson Rockefeller got rich in what industry?"), ("a. Coal", "b. Oil", "c. Steel", "d. Logging"), ("b"))]
-
-# The questionsAndAnswers[] list is sets of nested tuples inside the list. Inside a larger tuple, 
+# The following lists are sets of nested tuples inside the list. Inside a larger tuple, 
 # you find three tuples. One is for the question, one is for the multiple choice answers for the 
 # quesition and the other is for the answer to the question. The answer references the letter of 
-# the correct answer in the multiple choice answers.
+# the correct answer in the multiple choice answers. Here we have 4 lists: generalTriva[], movieTriva[],
+# musicTrivia[], and eightiesTrivia[]. The user is presented with a menu to decide which category
+# they want to play in. 
+
+generalTrivia = [(("In what city would you find the Eiffel Tower?"), ("a. New York", "b. London", "c. Paris", "d. Amsterdam"), ("c")), 
+                 (("What famous document begins: 'When in the course of human events...'?"), ("a. The US Constitution", "b. The US Declaration of Independence", "c. Magna Carta", "d. The Communist Manifesto"), ("b")), 
+                 (("Who was the last president of the Soviet Union?"), ("a. Mikail Gorbachev", "b. Nikita Khrushchev", "c. Vladimir Lenin", "d. Joseph Stalin"), ("a")), 
+                 (("According to the nursery rhyme, what were Jack and Jill fetching?"), ("a. Milk", "b. Water", "c. Orange Juice", "d. Apple Juice"), ("b")), 
+                 (("Which fruit inspired Sir Isaac Newton?"), ("a. Orange", "b. Kiwi", "c. Banana", "d. Apple"), ("d")), 
+                 (("What 1975 blockbuster sees Roy Scheider utter: 'We need a bigger boat'?"), ("a. Jaws", "b. Apocalypse Now", "c. Titanic", "d. Das Boot"), ("a")), 
+                 (("What movie has Bob Hoskins seething: 'A toon killed my brother'?"), ("a. Space Jam", "b. Toy Story", "c. Who Framed Roger Rabbit?", "d. Cool World"), ("c")), 
+                 (("What kind of animal is the emblem of the US Democratic political party?"), ("a. Donkey", "b. Elephant", "c. Wolverine", "d. Honey Badger"), ("a")), 
+                 (("What breakfast cereal was Sonny the Cuckoo Bird 'cuckoo for'?"), ("a. Cocoa Puffs", "b. Count Chocula", "c. Coco Pebbles", "d. Kix"), ("a")), 
+                 (("John Davidson Rockefeller got rich in what industry?"), ("a. Coal", "b. Oil", "c. Steel", "d. Logging"), ("b"))]
+
+movieTrivia = []
+
+musicTrivia = []
+
+eightiesTrivia = []
 
 print "\n"
 print "*****************************************************"          # Pretty title banner when game starts
@@ -33,15 +41,45 @@ print "*                                                   *"
 print "*****************************************************"
 print "\n"
 
-print "This is a general triva game. You will be presented with"       # Game instructions
-print "10 questions. Each question is multiple choice. Enter the"
-print "letter of the answer you think is correct. For each correct"
-print "answer, you will receive 10 points."
+print "Welcome to the triva game. You will choose a category, and"     # Game instructions
+print "you will be asked 10 questions. Each question is multiple"
+print "choice. Enter the letter of the answer you think is correct"
+print "For each correct answer, you will receive 10 points."
 print "\n"
 print "Let's get started!"
 print "\n"
+print "What trivia category do you prefer:"
+print "\n"
 
-for (question, choices, answer) in questionsAndAnswers:                # Loop through the questionsAndAnswers[] list. Apply the variable names 'question', 'choices', and 'answer' to the tuples.
+print "1. General Trivia"
+print "2. Movie Trivia"
+print "3. Music Trivia"
+print "4. 80s Trivia"
+print "\n"
+
+menuChoice = raw_input("Category selection: ")                          # Ask for the user's choice and assign that choice to the menuChoice variable
+while menuChoice not in ['1', '2', '3', '4']:                           # Only allow the user to enter '1', '2', '3', or '4'
+    print "I'm sorry, I don't understand. Please type the number of the category you would like to play."
+    categoryChoice = raw_input("Category selection: ")
+
+if menuChoice == '1':                                                   # Create the variable categoryChoice and assign it the name of the questions list
+    categoryChoice = generalTrivia                                      # based on the user's choice from the menu. 
+elif menuChoice == '2':
+    categoryChoice = movieTriva
+elif menuChoice == '3':
+    categoryChoice = musicTrivia
+elif menuChoice == '4':
+    categoryChoice = eightiesTrivia
+
+print "\n"
+print "******************"
+print "*                *"
+print "*   LET'S PLAY   *"
+print "*                *"
+print "******************"
+print "\n"
+
+for (question, choices, answer) in categoryChoice:                     # Loop through the question list assigned to the categoryChoice variable. Apply the variable names 'question', 'choices', and 'answer' to the tuples.
     print "Question " + str(questNum) + ": "                           # Print out the question
     print question
     print choices[0]                                                   # Print out the choices
