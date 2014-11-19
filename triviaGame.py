@@ -4,7 +4,8 @@
 #                                                                      #
 ########################################################################
 #                                                                      #
-# This is a trivia game written in Python.                             #
+# This is a trivia game written in Python, and licensed under          #
+# the GPLv3. See LICENSE.txt for more information.                     #
 #                                                                      #
 # The player is presented with 4 categories of trivia to choose from   #
 # each with 10 questions, each with mulitple choice answers. Score is  #
