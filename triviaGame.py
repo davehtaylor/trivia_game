@@ -14,13 +14,63 @@
 #                                                                      #
 ########################################################################
 
+# Import csv in order to read the comma separated value files that hold
+# the trivia data.
+
+import csv
+
 # Initialize two variables to start: player score, and the question
 # number.
 
 score = 0
 questNum = 1
 
+# Lists to hold trivia question objects
 
+generalTriviaList = []
+movieTriviaList = []
+musicTriviaList = []
+eightiesTriviaList = []
+
+
+class Trivia:
+    """A class to create objects from the trivia data in the csv files.
+    Take in the question, the answer, and four multiple choice answers.
+    """
+
+    def __init__(self, question, answer, choiceA, choiceB, choiceC, choiceD):
+        self.question = question
+        self.answer = answer
+        self.choiceA = choiceA
+        self.choiceB = choiceB
+        self.choiceC = choiceC
+        self.choiceD = choiceD
+
+# Read the csv files and instantiate list of objects from the data
+
+with open('generalTrivia.csv', 'rb') as csvfile:
+    generalTriviaReader = csv.reader(csvfile, delimiter=',', quotechar='"')
+    next(generalTriviaReader, None)
+    for question, answer, choiceA, choiceB, choiceC, choiceD in generalTriviaReader:
+        generalTriviaList.append(Trivia(question, answer, choiceA, choiceB, choiceC, choiceD))
+
+with open('movieTrivia.csv', 'rb') as csvfile:
+    movieTriviaReader = csv.reader(csvfile, delimiter=',', quotechar='"')
+    next(movieTriviaReader, None)
+    for question, answer, choiceA, choiceB, choiceC, choiceD in movieTriviaReader:
+        movieTriviaList.append(Trivia(question, answer, choiceA, choiceB, choiceC, choiceD))
+
+with open('musicTrivia.csv', 'rb') as csvfile:
+    musicTriviaReader = csv.reader(csvfile, delimiter=',', quotechar='"')
+    next(musicTriviaReader, None)
+    for question, answer, choiceA, choiceB, choiceC, choiceD in musicTriviaReader:
+        musicTriviaList.append(Trivia(question, answer, choiceA, choiceB, choiceC, choiceD))
+
+with open('eightiesTrivia.csv', 'rb') as csvfile:
+    eightiesTriviaReader = csv.reader(csvfile, delimiter=',', quotechar='"')
+    next(eightiesTriviaReader, None)
+    for question, answer, choiceA, choiceB, choiceC, choiceD in eightiesTriviaReader:
+        eightiesTriviaList.append(Trivia(question, answer, choiceA, choiceB, choiceC, choiceD))
 
 print "\n"
 print "*****************************************************"
@@ -61,13 +111,13 @@ while menuChoice not in ['1', '2', '3', '4']:
 # questions list based on the user's choice from the menu.
 
 if menuChoice == '1':
-    categoryChoice = generalTrivia
+    categoryChoice = generalTriviaList
 elif menuChoice == '2':
-    categoryChoice = movieTrivia
+    categoryChoice = movieTriviaList
 elif menuChoice == '3':
-    categoryChoice = musicTrivia
+    categoryChoice = musicTriviaList
 elif menuChoice == '4':
-    categoryChoice = eightiesTrivia
+    categoryChoice = eightiesTriviaList
 
 print "\n"
 print "******************"
@@ -81,17 +131,17 @@ print "\n"
 # variable. Apply the variable names 'question', 'choices', and
 # 'answer' to the tuples.
 
-for (question, choices, answer) in categoryChoice:
+for item in categoryChoice:
 
     # First, we print out the question number, then the question,
     # followed by the answer 4 choices.
 
     print "Question " + str(questNum) + ": "
-    print question
-    print choices[0]
-    print choices[1]
-    print choices[2]
-    print choices[3]
+    print item.question
+    print item.choiceA
+    print item.choiceB
+    print item.choiceC
+    print item.choiceD
     print "\n"
 
     # Next, we ask for the player's response, and only allow them
@@ -106,9 +156,9 @@ for (question, choices, answer) in categoryChoice:
     # Test if the player's response is the correct answer. If not, tell
     # them the correct answer. If correct, add 10 points to their score.
 
-    if response != answer:
+    if response != item.answer:
         print "\n\n*** I'm sorry, that's not correct. " \
-              "The correct answer is '" + answer + "'. ***\n\n"
+              "The correct answer is '" + item.answer + "'. ***\n\n"
     else:
         print "\n\n*** That's correct! ***\n\n"
         score += 10
