@@ -25,12 +25,14 @@ import csv
 score = 0
 questNum = 1
 
-# Lists to hold trivia question objects
+# Initialize a list to hold all of the trivia categories, which is
+# created by reading all of the csv files in the current directory.
 
-generalTriviaList = []
-movieTriviaList = []
-musicTriviaList = []
-eightiesTriviaList = []
+categories = []
+
+for file in os.listdir("."):
+    if file.endswith(".csv"):
+        categories.append(file)
 
 
 class Trivia:
