@@ -7,32 +7,35 @@
 # This is a trivia game written in Python, and licensed under          #
 # the GPLv3. See LICENSE.txt for more information.                     #
 #                                                                      #
-# The player is presented with 4 categories of trivia to choose from   #
-# each with 10 questions, each with mulitple choice answers. Score is  #
-# kept, awarding 10 points for each correct answer, and the player is  #
-# given their score at the end of the game.                            #
+# The player is presented with different categories of trivia to       #
+# choose from, each displaying 10 questions with mulitple choice       #
+# answers. Score is kept, awarding 10 points for each correct answer,  #
+# and the player is given their score at the end of the game.          #
 #                                                                      #
 ########################################################################
 
 # Import csv in order to read the comma separated value files that hold
 # the trivia data.
+# Import os in order to read from the current directory to find the csv
+# files that contain the question data.
 
 import csv
+import os
+import sys
 
 # Initialize two variables to start: player score, and the question
 # number.
 
+# Initialize a list, csvFiles, to hold all of the names of the csv
+# files in the current directory that hold the trivia data.
+
+# Initialize a list, questionList, to hold the Trivia objects created
+# from the csv files.
+
 score = 0
 questNum = 1
-
-# Initialize a list to hold all of the trivia categories, which is
-# created by reading all of the csv files in the current directory.
-
-categories = []
-
-for file in os.listdir("."):
-    if file.endswith(".csv"):
-        categories.append(file)
+csvFiles = []
+questionList = []
 
 
 class Trivia:
@@ -48,38 +51,53 @@ class Trivia:
         self.choiceC = choiceC
         self.choiceD = choiceD
 
-# Read the csv files and instantiate list of objects from the data
 
-with open('generalTrivia.csv', 'rb') as csvfile:
-    generalTriviaReader = csv.reader(csvfile, delimiter=',', quotechar='"')
-    next(generalTriviaReader, None)
-    for question, answer, choiceA, choiceB, choiceC, choiceD in generalTriviaReader:
-        generalTriviaList.append(Trivia(question, answer, choiceA, choiceB, choiceC, choiceD))
+def listCSVfiles():
+    """Create a list to hold all of the names of the csv files to in
+    the current directory.
+    """
+    for file in os.listdir("."):
+        if file.endswith(".csv"):
+            csvFiles.append(file)
 
-with open('movieTrivia.csv', 'rb') as csvfile:
-    movieTriviaReader = csv.reader(csvfile, delimiter=',', quotechar='"')
-    next(movieTriviaReader, None)
-    for question, answer, choiceA, choiceB, choiceC, choiceD in movieTriviaReader:
-        movieTriviaList.append(Trivia(question, answer, choiceA, choiceB, choiceC, choiceD))
 
-with open('musicTrivia.csv', 'rb') as csvfile:
-    musicTriviaReader = csv.reader(csvfile, delimiter=',', quotechar='"')
-    next(musicTriviaReader, None)
-    for question, answer, choiceA, choiceB, choiceC, choiceD in musicTriviaReader:
-        musicTriviaList.append(Trivia(question, answer, choiceA, choiceB, choiceC, choiceD))
+def makeMenuListing(inputName):
+    """Take the name of the csv file that holds the question data, and
+    make it pretty for the user category selection menu. The csv
+    filenames follow the form "CategoryTrivia.csv". This function takes
+    the name, removes the file extension, inserts a space between the
+    category name and the word "Trivia". So that instead of
+    "CategoryTrivia.csv", in the menu you see "Category Trivia".
+    """
+    strippedName = inputName[:-4]
+    secondWord = strippedName.find("Trivia")
+    splitWords = strippedName[:secondWord] + " " + strippedName[secondWord:]
+    return splitWords
 
-with open('eightiesTrivia.csv', 'rb') as csvfile:
-    eightiesTriviaReader = csv.reader(csvfile, delimiter=',', quotechar='"')
-    next(eightiesTriviaReader, None)
-    for question, answer, choiceA, choiceB, choiceC, choiceD in eightiesTriviaReader:
-        eightiesTriviaList.append(Trivia(question, answer, choiceA, choiceB, choiceC, choiceD))
+
+def finalScore(score):
+    """Tell the player the final score, with some encouragement
+    or admonition.
+    """
+    if score == 100:
+        return "*** Great job! Perfect score! ***"
+    elif score >= 80 and score < 100:
+        return "*** Not bad!. Your score was: " + str(score) + " ***"
+    elif score >= 50 and score < 80:
+        return "*** Need more studying. Your score was: " + str(score) + " ***"
+    else:
+        return "*** Better luck next time. Your score was: " + str(score) + " ***"
+
+# Create the list of csv files
+
+listCSVfiles()
 
 print "\n"
-print "*****************************************************"
-print "*                                                   *"
-print "*                    Trivia Game                    *"
-print "*                                                   *"
-print "*****************************************************"
+print "************************************************************"
+print "*                                                          *"
+print "*                       Trivia Game                        *"
+print "*                                                          *"
+print "************************************************************"
 print "\n"
 
 print "Welcome to the triva game. You will choose a category, and"
@@ -87,39 +105,27 @@ print "you will be asked 10 questions. Each question is multiple"
 print "choice. Enter the letter of the answer you think is correct"
 print "For each correct answer, you will receive 10 points."
 print "\n"
-print "Let's get started!"
+print "Choose a category:"
 print "\n"
-print "What trivia category do you prefer:"
-print "\n"
-print "1. General Trivia"
-print "2. Movie Trivia"
-print "3. Music Trivia"
-print "4. 80s Trivia"
+
+# Print out a list of the cateories as a menu for the user to select.
+# The menu displays a number and a category name. The number is 
+# printed with the counter variable, and the category name is printed
+# by taking the names of the csv files and making the file name pretty
+# with the makeMenuListing function. The user selects a number that
+# corresponds to the category they would like to play.
+
+counter = 1
+for csvfile in csvFiles:
+    print str(counter) + ". " + makeMenuListing(csvfile)
+    counter += 1
+
 print "\n"
 
 # Ask for the user's choice and assign that choice to the
 # menuChoice variable.
 
 menuChoice = raw_input("Category selection: ")
-
-# Only allow the user to enter '1', '2', '3', or '4'
-
-while menuChoice not in ['1', '2', '3', '4']:
-    print "I'm sorry, I don't understand. Please type the number of the " \
-          "category you would like to play."
-    menuChoice = raw_input("Category selection: ")
-
-# Create the variable categoryChoice and assign it the name of the
-# questions list based on the user's choice from the menu.
-
-if menuChoice == '1':
-    categoryChoice = generalTriviaList
-elif menuChoice == '2':
-    categoryChoice = movieTriviaList
-elif menuChoice == '3':
-    categoryChoice = musicTriviaList
-elif menuChoice == '4':
-    categoryChoice = eightiesTriviaList
 
 print "\n"
 print "******************"
@@ -129,11 +135,29 @@ print "*                *"
 print "******************"
 print "\n"
 
-# Loop through the question list assigned to the categoryChoice
-# variable. Apply the variable names 'question', 'choices', and
-# 'answer' to the tuples.
+# Create the variable categoryChoice by choosing from the csvFiles list
+# the menuChoice - 1 (to get the proper index from the list).
 
-for item in categoryChoice:
+categoryChoice = csvFiles[int(menuChoice) - 1]
+
+# Take the categoryChoice and use it to read the selected csv file, and
+# instantiate Trivia objects from the file, and append them to the
+# questionList.
+
+with open(categoryChoice, 'rb') as csvfile:
+    fileReader = csv.reader(csvfile, delimiter=',', quotechar='"')
+    next(fileReader, None)
+    for question, answer, choiceA, choiceB, choiceC, choiceD in fileReader:
+        questionList.append(Trivia(question,
+                                   answer,
+                                   choiceA,
+                                   choiceB,
+                                   choiceC,
+                                   choiceD))
+
+# Print out the questions and multiple choices.
+
+for item in questionList:
 
     # First, we print out the question number, then the question,
     # followed by the answer 4 choices.
@@ -176,14 +200,7 @@ print "\n"
 
 # This is where we tell the player their final score.
 
-if score == 100:
-    print "*** Great job! Perfect score! ***"
-elif score >= 80 and score < 100:
-    print "*** Not bad!. Your score was: " + str(score) + " ***"
-elif score >= 50 and score < 80:
-    print "*** Need more studying. Your score was: " + str(score) + " ***"
-else:
-    print "*** Better luck next time. Your score was: " + str(score) + " ***"
+print finalScore(score)
 
 print "\n"
 print "*****************************************************"
