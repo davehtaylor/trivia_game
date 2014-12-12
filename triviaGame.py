@@ -51,7 +51,13 @@ class Trivia:
         self.choiceC = choiceC
         self.choiceD = choiceD
 
-
+    def askQuestion(self):
+        print self.question
+        print self.choiceA
+        print self.choiceB
+        print self.choiceC
+        print self.choiceD
+        
 def listCSVfiles():
     """Create a list to hold all of the names of the csv files to in
     the current directory.
@@ -160,14 +166,11 @@ with open(categoryChoice, 'rb') as csvfile:
 for item in questionList:
 
     # First, we print out the question number, then the question,
-    # followed by the answer 4 choices.
+    # followed by the answer 4 choices, presented by the 
+    # askQuestion method.
 
     print "Question " + str(questNum) + ": "
-    print item.question
-    print item.choiceA
-    print item.choiceB
-    print item.choiceC
-    print item.choiceD
+    item.askQuestion()
     print "\n"
 
     # Next, we ask for the player's response, and only allow them
