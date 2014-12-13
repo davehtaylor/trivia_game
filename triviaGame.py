@@ -122,6 +122,9 @@ def testPlayerResponse(response):
     """Test the player's response to see if it's correct."""
 
     # So the score variable can be updated from within this function.
+    # I'd like to figure out a way for this not to be a global 
+    # variable. But I'm not sure how to get the score out of this
+    # function yet. So I'm going to roll with it for now. 
 
     global score
     
