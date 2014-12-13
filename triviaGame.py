@@ -57,7 +57,8 @@ class Trivia:
         print self.choiceB
         print self.choiceC
         print self.choiceD
-        
+       
+
 def listCSVfiles():
     """Create a list to hold all of the names of the csv files to in
     the current directory.
@@ -83,13 +84,66 @@ def makeMenuListing(inputName):
 
 def printPlayerMenu():
     """Prints out the menu that they player is presented with when
-    they first launch the game.
+    they first launch the game. The menu displays a number and a
+    category name. The number is  printed with the counter variable,
+    and the category name is printed by taking the names of the csv
+    files and making the file name pretty with the makeMenuListing
+    function. The user selects a number that corresponds to the
+    category they would like to play.
     """
     counter = 1
     for csvfile in csvFiles:
         print str(counter) + ". " + makeMenuListing(csvfile)
         counter += 1
     print "\n"
+
+
+def instantiateQuestionObjects(categoryChoice):
+    """Take the categoryChoice and use it to read the selected csv file,
+    and instantiate Trivia objects from the file, and append them to the
+    questionList. 
+    """
+    with open(categoryChoice, 'rb') as csvfile:
+        reader = csv.reader(csvfile, delimiter=',', quotechar='"')
+        next(reader, None)
+        for question, answer, choiceA, choiceB, choiceC, choiceD in reader:
+            questionList.append(Trivia(question,
+                                       answer,
+                                       choiceA,
+                                       choiceB,
+                                       choiceC,
+                                       choiceD))
+
+
+def testPlayerResponse(response):
+    """Test the player's response to see if it's correct.
+    """
+
+    # First, only allow the user to repsond with a, b, c, or d.
+
+    while response not in ['a', 'b', 'c', 'd']:
+            print "I'm sorry, I don't understand. " \
+                  "Please type 'a', 'b', 'c', or 'd'."
+            response = raw_input("Your answer: ")
+
+    # Test if the player's response is the correct answer. If not, tell
+    # them the correct answer. If correct, add 10 points to their score.
+
+    if response != item.answer:
+        print "\n\n*** I'm sorry, that's not correct. " \
+              "The correct answer is '" + item.answer + "'. ***\n\n"
+    else:
+        print "\n\n*** That's correct! ***\n\n"
+        score += 10
+
+
+def printSeparator():
+    """Print out a pretty separator around the final score.
+    """
+    print "\n"
+    print "*****************************************************"
+    print "*****************************************************"
+    print "\n\n"
 
 
 def finalScore(score):
@@ -117,20 +171,15 @@ print "*                                                          *"
 print "************************************************************"
 print "\n"
 
-print "Welcome to the triva game. You will choose a category, and"
-print "you will be asked 10 questions. Each question is multiple"
-print "choice. Enter the letter of the answer you think is correct"
-print "For each correct answer, you will receive 10 points."
+print "Welcome to the triva game. Choose a category, Each category"
+print "will present 10 questions. Each question is multiple choice."
+print "Enter the letter of the answer you think is correct. For"
+print "each correct answer, you will receive 10 points."
 print "\n"
 print "Choose a category:"
 print "\n"
 
-# Print out a list of the cateories as a menu for the user to select.
-# The menu displays a number and a category name. The number is 
-# printed with the counter variable, and the category name is printed
-# by taking the names of the csv files and making the file name pretty
-# with the makeMenuListing function. The user selects a number that
-# corresponds to the category they would like to play.
+# Print out the player menu with the printPlayerMenu funtion
 
 printPlayerMenu()
 
@@ -156,16 +205,7 @@ categoryChoice = csvFiles[int(menuChoice) - 1]
 # instantiate Trivia objects from the file, and append them to the
 # questionList.
 
-with open(categoryChoice, 'rb') as csvfile:
-    fileReader = csv.reader(csvfile, delimiter=',', quotechar='"')
-    next(fileReader, None)
-    for question, answer, choiceA, choiceB, choiceC, choiceD in fileReader:
-        questionList.append(Trivia(question,
-                                   answer,
-                                   choiceA,
-                                   choiceB,
-                                   choiceC,
-                                   choiceD))
+instantiateQuestionObjects(categoryChoice)
 
 # Print out the questions and multiple choices.
 
@@ -179,39 +219,21 @@ for item in questionList:
     item.askQuestion()
     print "\n"
 
-    # Next, we ask for the player's response, and only allow them
-    # to enter a, b, c, or d.
+    # Next, ask for the player's response, and use the 
+    # testPlayerResponse to check if the answer is correct.
 
     response = raw_input("Your answer: ")
-    while response not in ['a', 'b', 'c', 'd']:
-        print "I'm sorry, I don't understand. " \
-              "Please type 'a', 'b', 'c', or 'd'."
-        response = raw_input("Your answer: ")
 
-    # Test if the player's response is the correct answer. If not, tell
-    # them the correct answer. If correct, add 10 points to their score.
-
-    if response != item.answer:
-        print "\n\n*** I'm sorry, that's not correct. " \
-              "The correct answer is '" + item.answer + "'. ***\n\n"
-    else:
-        print "\n\n*** That's correct! ***\n\n"
-        score += 10
+    testPlayerResponse(response)
 
     # Increment the question number
 
     questNum += 1
 
-print "\n"
-print "*****************************************************"
-print "*****************************************************"
-print "\n"
-
 # This is where we tell the player their final score.
+
+printSeparator()
 
 print finalScore(score)
 
-print "\n"
-print "*****************************************************"
-print "*****************************************************"
-print "\n\n"
+printSeparator()
