@@ -16,8 +16,11 @@
 
 # Import csv in order to read the comma separated value files that hold
 # the trivia data.
+
 # Import os in order to read from the current directory to find the csv
 # files that contain the question data.
+
+# Import sys in order to use the sys.exit command.
 
 import csv
 import os
@@ -116,10 +119,13 @@ def instantiateQuestionObjects(categoryChoice):
 
 
 def testPlayerResponse(response):
-    """Test the player's response to see if it's correct.
-    """
+    """Test the player's response to see if it's correct."""
 
-    # First, only allow the user to repsond with a, b, c, or d.
+    # So the score variable can be updated from within this function.
+
+    global score
+    
+    # Only allow the user to repsond with a, b, c, or d.
 
     while response not in ['a', 'b', 'c', 'd']:
             print "I'm sorry, I don't understand. " \
@@ -143,7 +149,7 @@ def printSeparator():
     print "\n"
     print "*****************************************************"
     print "*****************************************************"
-    print "\n\n"
+    print "\n"
 
 
 def finalScore(score):
