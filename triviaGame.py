@@ -81,6 +81,17 @@ def makeMenuListing(inputName):
     return splitWords
 
 
+def printPlayerMenu():
+    """Prints out the menu that they player is presented with when
+    they first launch the game.
+    """
+    counter = 1
+    for csvfile in csvFiles:
+        print str(counter) + ". " + makeMenuListing(csvfile)
+        counter += 1
+    print "\n"
+
+
 def finalScore(score):
     """Tell the player the final score, with some encouragement
     or admonition.
@@ -121,12 +132,7 @@ print "\n"
 # with the makeMenuListing function. The user selects a number that
 # corresponds to the category they would like to play.
 
-counter = 1
-for csvfile in csvFiles:
-    print str(counter) + ". " + makeMenuListing(csvfile)
-    counter += 1
-
-print "\n"
+printPlayerMenu()
 
 # Ask for the user's choice and assign that choice to the
 # menuChoice variable.
