@@ -180,7 +180,7 @@ print "*                                                          *"
 print "************************************************************"
 print "\n"
 
-print "Welcome to the triva game. Choose a category, Each category"
+print "Welcome to the triva game. Choose a category. Each category"
 print "will present 10 questions. Each question is multiple choice."
 print "Enter the letter of the answer you think is correct. For"
 print "each correct answer, you will receive 10 points."
