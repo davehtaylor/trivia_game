@@ -20,11 +20,8 @@
 # Import os in order to read from the current directory to find the csv
 # files that contain the question data.
 
-# Import sys in order to use the sys.exit command.
-
 import csv
 import os
-import sys
 
 # Initialize two variables to start: player score, and the question
 # number.
