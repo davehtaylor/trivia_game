@@ -32,10 +32,19 @@ import os
 # Initialize a list, questionList, to hold the Trivia objects created
 # from the csv files.
 
-score = 0
 questNum = 1
 csvFiles = []
 questionList = []
+
+
+class Player:
+    """A class to create a player object, in order to hold information
+    like the player's score.
+    """
+
+    def __init__(self, menuChoice, score):
+        self.menuChoice = menuChoice
+        self.score = score
 
 
 class Trivia:
@@ -118,13 +127,6 @@ def instantiateQuestionObjects(categoryChoice):
 def testPlayerResponse(response):
     """Test the player's response to see if it's correct."""
 
-    # So the score variable can be updated from within this function.
-    # I'd like to figure out a way for this not to be a global 
-    # variable. But I'm not sure how to get the score out of this
-    # function yet. So I'm going to roll with it for now. 
-
-    global score
-    
     # Only allow the user to repsond with a, b, c, or d.
 
     while response not in ['a', 'b', 'c', 'd']:
@@ -140,7 +142,7 @@ def testPlayerResponse(response):
               "The correct answer is '" + item.answer + "'. ***\n\n"
     else:
         print "\n\n*** That's correct! ***\n\n"
-        score += 10
+        player.score += 10
 
 
 def printSeparator():
@@ -194,6 +196,11 @@ printPlayerMenu()
 
 menuChoice = raw_input("Category selection: ")
 
+# Initialize the player object. Give it the menu choice, and 
+# start the score off at 0.
+
+player = Player(menuChoice, score = 0)
+
 print "\n"
 print "******************"
 print "*                *"
@@ -205,7 +212,7 @@ print "\n"
 # Create the variable categoryChoice by choosing from the csvFiles list
 # the menuChoice - 1 (to get the proper index from the list).
 
-categoryChoice = csvFiles[int(menuChoice) - 1]
+categoryChoice = csvFiles[int(player.menuChoice) - 1]
 
 # Take the categoryChoice and use it to read the selected csv file, and
 # instantiate Trivia objects from the file, and append them to the
@@ -240,6 +247,6 @@ for item in questionList:
 
 printSeparator()
 
-print finalScore(score)
+print finalScore(player.score)
 
 printSeparator()
