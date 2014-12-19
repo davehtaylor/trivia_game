@@ -38,12 +38,16 @@ questionList = []
 
 
 class Player:
-    """A class to create a player object, in order to hold information
-    like the player's score.
+    """A class to create a player object, in order to hold the player's
+    category choice and score. The category choice is printed out while
+    the questions are being asked, so the player can always see the 
+    current category. The makeMenuListing function is used to format
+    the output, just as it is when the game menu is displayed, so the
+    category choice is readble. 
     """
 
-    def __init__(self, menuChoice, score):
-        self.menuChoice = menuChoice
+    def __init__(self, categoryChoice, score):
+        self.categoryChoice = makeMenuListing(categoryChoice)
         self.score = score
 
 
@@ -84,6 +88,9 @@ def makeMenuListing(inputName):
     the name, removes the file extension, inserts a space between the
     category name and the word "Trivia". So that instead of
     "CategoryTrivia.csv", in the menu you see "Category Trivia".
+
+    This is also used in the Player class to display the current
+    category to the player during the game. 
     """
     strippedName = inputName[:-4]
     secondWord = strippedName.find("Trivia")
@@ -179,10 +186,8 @@ print "*                                                          *"
 print "************************************************************"
 print "\n"
 
-print "Welcome to the triva game. Choose a category. Each category"
-print "will present 10 questions. Each question is multiple choice."
-print "Enter the letter of the answer you think is correct. For"
-print "each correct answer, you will receive 10 points."
+print "Choose a category. Each category will present 10 questions."
+print "Each correct answer will receive 10 points."
 print "\n"
 print "Choose a category:"
 print "\n"
@@ -196,29 +201,25 @@ printPlayerMenu()
 
 menuChoice = raw_input("Category selection: ")
 
-# Initialize the player object. Give it the menu choice, and 
-# start the score off at 0.
-
-player = Player(menuChoice, score = 0)
-
-print "\n"
-print "******************"
-print "*                *"
-print "*   LET'S PLAY   *"
-print "*                *"
-print "******************"
-print "\n"
-
 # Create the variable categoryChoice by choosing from the csvFiles list
 # the menuChoice - 1 (to get the proper index from the list).
 
-categoryChoice = csvFiles[int(player.menuChoice) - 1]
+categoryChoice = csvFiles[int(menuChoice) - 1]
 
 # Take the categoryChoice and use it to read the selected csv file, and
 # instantiate Trivia objects from the file, and append them to the
 # questionList.
 
 instantiateQuestionObjects(categoryChoice)
+
+# Initialize the player object. Give it the category choice, and 
+# start the score off at 0.
+
+player = Player(categoryChoice, score = 0)
+
+# Clear the screen to begin the questions
+
+os.system('clear')
 
 # Print out the questions and multiple choices.
 
@@ -228,6 +229,8 @@ for item in questionList:
     # followed by the answer 4 choices, presented by the 
     # askQuestion method.
 
+    print "Category: " + player.categoryChoice
+    print "\n"
     print "Question " + str(questNum) + ": "
     item.askQuestion()
     print "\n"
@@ -237,11 +240,22 @@ for item in questionList:
 
     response = raw_input("Your answer: ")
 
+    # Check the player's response
+
     testPlayerResponse(response)
+
+    # Pause so the player can see if their answer was
+    # correct. 
+
+    raw_input("Press enter to continue...")
 
     # Increment the question number
 
     questNum += 1
+    
+    # Clear the screen for the next question
+
+    os.system('clear')
 
 # This is where we tell the player their final score.
 
