@@ -14,11 +14,12 @@
 #                                                                      #
 ########################################################################
 
-# Import csv in order to read the comma separated value files that hold
-# the trivia data.
+# Import csv in order to use csv.reader to read the comma separated
+# value files that hold the trivia data.
 
-# Import os in order to read from the current directory to find the csv
-# files that contain the question data.
+# Import os in order to use os.listdir to read from the current
+# directory to find the csv files that contain the question data, and
+# to use the os.system command to clear the screen. 
 
 import csv
 import os
@@ -39,16 +40,27 @@ questionList = []
 
 class Player:
     """A class to create a player object, in order to hold the player's
-    category choice and score. The category choice is printed out while
-    the questions are being asked, so the player can always see the 
-    current category. The makeMenuListing function is used to format
-    the output, just as it is when the game menu is displayed, so the
-    category choice is readble. 
+    category choice, score, and response the player is given regarding
+    their final score, 
+
+    The category choice is printed out while the questions are being
+    asked, so the player can always see the current category.The
+    makeMenuListing function is used to format the output, just as
+    it is when the game menu is displayed, so the category choice is
+    readble.
+
+    The score is tallied as the game goes, based on the player's
+    responses, and printed out at the end to show the player's final
+    score.
+
+    The scoreResponse is initialized as an empty
+    string. The finalScore function will define it later on.
     """
 
-    def __init__(self, categoryChoice, score):
+    def __init__(self, categoryChoice, score, scoreResponse = ""):
         self.categoryChoice = makeMenuListing(categoryChoice)
         self.score = score
+        self.scoreResponse = scoreResponse
 
 
 class Trivia:
@@ -166,17 +178,23 @@ def finalScore(score):
     or admonition.
     """
     if score == 100:
-        return "*** Great job! Perfect score! ***"
+        player.scoreResponse = "*** Great job! Perfect score! ***"
     elif score >= 80 and score < 100:
-        return "*** Not bad!. Your score was: " + str(score) + " ***"
+        player.scoreResponse = "*** Not bad!. Your score was: " + str(score) + " ***"
     elif score >= 50 and score < 80:
-        return "*** Need more studying. Your score was: " + str(score) + " ***"
+        player.scoreResposne = "*** Need more studying. Your score was: " + str(score) + " ***"
     else:
-        return "*** Better luck next time. Your score was: " + str(score) + " ***"
+        player.scoreResponse = "*** Better luck next time. Your score was: " + str(score) + " ***"
+
+    return player.scoreResponse
 
 # Create the list of csv files
 
 listCSVfiles()
+
+# Clear the screen to get started
+
+os.system('clear')
 
 print "\n"
 print "************************************************************"
