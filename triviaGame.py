@@ -33,7 +33,6 @@ import os
 # Initialize a list, questionList, to hold the Trivia objects created
 # from the csv files.
 
-questNum = 1
 csvFiles = []
 questionList = []
 
@@ -57,10 +56,11 @@ class Player:
     string. The finalScore function will define it later on.
     """
 
-    def __init__(self, categoryChoice, score, scoreResponse = ""):
+    def __init__(self, categoryChoice, score, scoreResponse = "", questionNumber = 1):
         self.categoryChoice = makeMenuListing(categoryChoice)
         self.score = score
         self.scoreResponse = scoreResponse
+        self.questionNumber = questionNumber
 
 
 class Trivia:
@@ -249,7 +249,7 @@ for item in questionList:
 
     print "Category: " + player.categoryChoice
     print "\n"
-    print "Question " + str(questNum) + ": "
+    print "Question " + str(player.questionNumber) + ": "
     item.askQuestion()
     print "\n"
 
@@ -269,7 +269,7 @@ for item in questionList:
 
     # Increment the question number
 
-    questNum += 1
+    player.questionNumber += 1
     
     # Clear the screen for the next question
 
