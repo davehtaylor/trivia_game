@@ -19,7 +19,7 @@
 
 # Import os in order to use os.listdir to read from the current
 # directory to find the csv files that contain the question data, and
-# to use the os.system command to clear the screen. 
+# to use the os.system command to clear the screen.
 
 import csv
 import os
@@ -40,7 +40,7 @@ questionList = []
 class Player:
     """A class to create a player object, in order to hold the player's
     category choice, score, and response the player is given regarding
-    their final score, 
+    their final score,
 
     The category choice is printed out while the questions are being
     asked, so the player can always see the current category.The
@@ -56,7 +56,9 @@ class Player:
     string. The finalScore function will define it later on.
     """
 
-    def __init__(self, categoryChoice, score, scoreResponse = "", questionNumber = 1):
+    def __init__(self, categoryChoice,
+                 score, scoreResponse="",
+                 questionNumber=1):
         self.categoryChoice = makeMenuListing(categoryChoice)
         self.score = score
         self.scoreResponse = scoreResponse
@@ -82,7 +84,7 @@ class Trivia:
         print self.choiceB
         print self.choiceC
         print self.choiceD
-       
+
 
 def listCSVfiles():
     """Create a list to hold all of the names of the csv files to in
@@ -102,7 +104,7 @@ def makeMenuListing(inputName):
     "CategoryTrivia.csv", in the menu you see "Category Trivia".
 
     This is also used in the Player class to display the current
-    category to the player during the game. 
+    category to the player during the game.
     """
     strippedName = inputName[:-4]
     secondWord = strippedName.find("Trivia")
@@ -129,7 +131,7 @@ def printPlayerMenu():
 def instantiateQuestionObjects(categoryChoice):
     """Take the categoryChoice and use it to read the selected csv file,
     and instantiate Trivia objects from the file, and append them to the
-    questionList. 
+    questionList.
     """
     with open(categoryChoice, 'rb') as csvfile:
         reader = csv.reader(csvfile, delimiter=',', quotechar='"')
@@ -180,11 +182,14 @@ def finalScore(score):
     if score == 100:
         player.scoreResponse = "*** Great job! Perfect score! ***"
     elif score >= 80 and score < 100:
-        player.scoreResponse = "*** Not bad!. Your score was: " + str(score) + " ***"
+        player.scoreResponse = "*** Not bad!. Your score was: " \
+                               + str(score) + " ***"
     elif score >= 50 and score < 80:
-        player.scoreResposne = "*** Need more studying. Your score was: " + str(score) + " ***"
+        player.scoreResposne = "*** Need more studying. Your score was: " \
+                               + str(score) + " ***"
     else:
-        player.scoreResponse = "*** Better luck next time. Your score was: " + str(score) + " ***"
+        player.scoreResponse = "*** Better luck next time. Your score was: " \
+                               + str(score) + " ***"
 
     return player.scoreResponse
 
@@ -230,10 +235,10 @@ categoryChoice = csvFiles[int(menuChoice) - 1]
 
 instantiateQuestionObjects(categoryChoice)
 
-# Initialize the player object. Give it the category choice, and 
+# Initialize the player object. Give it the category choice, and
 # start the score off at 0.
 
-player = Player(categoryChoice, score = 0)
+player = Player(categoryChoice, score=0)
 
 # Clear the screen to begin the questions
 
@@ -244,7 +249,7 @@ os.system('clear')
 for item in questionList:
 
     # First, we print out the question number, then the question,
-    # followed by the answer 4 choices, presented by the 
+    # followed by the answer 4 choices, presented by the
     # askQuestion method.
 
     print "Category: " + player.categoryChoice
@@ -253,7 +258,7 @@ for item in questionList:
     item.askQuestion()
     print "\n"
 
-    # Next, ask for the player's response, and use the 
+    # Next, ask for the player's response, and use the
     # testPlayerResponse to check if the answer is correct.
 
     response = raw_input("Your answer: ")
@@ -263,14 +268,14 @@ for item in questionList:
     testPlayerResponse(response)
 
     # Pause so the player can see if their answer was
-    # correct. 
+    # correct.
 
     raw_input("Press enter to continue...")
 
     # Increment the question number
 
     player.questionNumber += 1
-    
+
     # Clear the screen for the next question
 
     os.system('clear')
