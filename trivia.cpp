@@ -12,20 +12,6 @@ struct Player {
 };
 
 
-// Strip the beginning and end characters from a string. 
-// 
-// Arguments taken: a string.
-//
-// Returns: the string, stripped of leading and trailing characters
-std::string strip_beg_end (std::string in_string) {
-
-    in_string.erase (in_string.begin());
-    in_string.erase (in_string.end() - 1);
-
-    return in_string;
-}
-
-
 // Take the file needed for the questions, open it, add the info to a
 // vector, then close the file. 
 //
@@ -52,7 +38,7 @@ void get_questions(std::string file,
             std::istringstream iss (line);
             
             while (std::getline(iss, tok, '|')) {
-                row.push_back(strip_beg_end(tok));
+                row.push_back(tok);
             } 
 
             questions_and_answers.push_back(row);
