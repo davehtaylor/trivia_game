@@ -98,7 +98,7 @@ void ask_questions(std::vector< std::vector<std::string> > q_and_a,
     int rows = q_and_a.size();
     std::string player_response;
     std::string stars(25, '*');
-
+    std::string clear_screen(50, '\n');
 
     while (i < rows) {
 
@@ -126,9 +126,11 @@ void ask_questions(std::vector< std::vector<std::string> > q_and_a,
             std::cout << "Sorry, that's incorrect." << std::endl;
         }
 
-        i++;
-        std::cout << stars << std::endl;
         std::cout << std::endl;
+        std::cout << "Press enter to continue" << std::endl;
+        std::getchar();
+        std::cout << clear_screen;
+        i++;
     }
 }
 
