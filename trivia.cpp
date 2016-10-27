@@ -1,8 +1,11 @@
 #include <iostream>
-#include <string>   // std::string
-#include <sstream>  // std::istringstream
-#include <fstream>  // std::ifstream
-#include <vector>   // std::vector
+#include <string>       // std::string
+#include <sstream>      // std::istringstream
+#include <fstream>      // std::ifstream
+#include <vector>       // std::vector
+#include <algorithm>    // std::random_shuffle
+#include <random>       // std::default_random_engine
+#include <chrono>       // std::chrono::system_clock
 
 
 // Struct to hold player score
@@ -12,7 +15,9 @@ struct Player {
 
 
 // Function to take the file needed for the questions, open it, add the
-// info to a vector, then close the file. 
+// info to a vector, then close the file. It will also randomly shuffle
+// the rows of the category data vector, so that each time the program is 
+// run, it will present the questions in a different order.
 //
 // Arguments taken: the file to be used as input, and a reference to 
 // the vector where the information will be stored.
@@ -21,11 +26,13 @@ struct Player {
 // vector, questions_and_answers
 void get_questions(std::string file, 
                    std::vector< std::vector<std::string> >& 
-                   questions_and_answers) {
+                   q_and_a) {
     
     std::ifstream category_file;
     std::string line;
     std::string tok;
+    unsigned int seed = 
+        std::chrono::system_clock::now().time_since_epoch().count();
 
     category_file.open(file, std::ios::in);
 
@@ -40,7 +47,7 @@ void get_questions(std::string file,
                 row.push_back(tok);
             } 
 
-            questions_and_answers.push_back(row);
+            q_and_a.push_back(row);
         }
     } else {
         std::cout << "Error opening data file" << std::endl;
@@ -48,6 +55,10 @@ void get_questions(std::string file,
     }
 
     category_file.close();
+
+    // Randomly sort the rows of the category data vecor
+    std::shuffle(begin(q_and_a), std::end(q_and_a), 
+                 std::default_random_engine(seed));
 }
 
 
