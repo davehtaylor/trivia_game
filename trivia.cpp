@@ -91,11 +91,11 @@ void ask_questions(std::vector< std::vector<std::string> > q_and_a,
                    Player& player) {
 
     int i = 0;
-    int rows = q_and_a.size();
     std::string player_response;
     std::string clear_screen(50, '\n');
 
-    while (i < rows) {
+    // Ask only 10 questions from the category data file
+    while (i < 10) {
         std::cout << "Current score: " << player.score << std::endl;
         std::cout << std::endl;
 
