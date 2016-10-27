@@ -95,12 +95,12 @@ void ask_questions(std::vector< std::vector<std::string> > q_and_a,
                    Player& player) {
 
     int i = 0;
-    int row_len = q_and_a.size();
+    int rows = q_and_a.size();
     std::string player_response;
     std::string stars(25, '*');
 
 
-    while (i < row_len) {
+    while (i < rows) {
 
         std::cout << "Current score: " << player.score << std::endl;
         std::cout << std::endl;
@@ -232,7 +232,7 @@ int main() {
     ask_questions(questions_and_answers, Player1);
     
     // Give the player their score and an appropriate congratulations
-    std::cout << "Great game, " << Player1.name << "!" << std::endl;
+    std::cout << "Thanks for playing, " << Player1.name << "!" << std::endl;
     std::cout << "Your final score: " << Player1.score << std::endl;
 
     if (Player1.score == 100) {
@@ -246,6 +246,8 @@ int main() {
     } else {
         std::cout << "Hit the books and try again later." << std::endl;
     }
+
+    std::cout << std::endl;
 
     return 0;
 }
