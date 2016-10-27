@@ -5,15 +5,14 @@
 #include <vector>   // std::vector
 
 
-// Struct to hold player name and score
+// Struct to hold player score
 struct Player {
-    std::string name;
     int score = 0;
 };
 
 
-// Take the file needed for the questions, open it, add the info to a
-// vector, then close the file. 
+// Function to take the file needed for the questions, open it, add the
+// info to a vector, then close the file. 
 //
 // Arguments taken: the file to be used as input, and a reference to 
 // the vector where the information will be stored.
@@ -83,11 +82,9 @@ void ask_questions(std::vector< std::vector<std::string> > q_and_a,
     int i = 0;
     int rows = q_and_a.size();
     std::string player_response;
-    std::string stars(25, '*');
     std::string clear_screen(50, '\n');
 
     while (i < rows) {
-
         std::cout << "Current score: " << player.score << std::endl;
         std::cout << std::endl;
 
@@ -102,52 +99,70 @@ void ask_questions(std::vector< std::vector<std::string> > q_and_a,
         std::cout << "Response: ";
         std::cin >> player_response;
 
-        if (test_response(q_and_a[i][1], player_response) == "correct") {
-
-            std::cout << "That's correct!" << std::endl;
+        if (player_response == "q") {
+            std::exit(0);
+        } else if (q_and_a[i][1] == player_response) {
+            std::cout << "*That's correct!*" << std::endl;
             player.score += 10;
-
         } else {
-
-            std::cout << "Sorry, that's incorrect." << std::endl;
+            std::cout << "*Sorry, that's incorrect*" << std::endl;
         }
 
         std::cout << std::endl;
         std::cout << "Press enter to continue" << std::endl;
         std::getchar();
+        std::cin.get();
         std::cout << clear_screen;
         i++;
     }
 }
 
 
+// Function to give the player their score and appropriate congratulations
+//
+// Arguments taken: a reference to the player struct
+//
+// Return value: No return value, just prints layer score and congratulations
+void congrats(Player& player) {
+
+    if (player.score == 100) {
+        std::cout << "Congratulations! Perfect score!" << std::endl;
+    } else if (player.score >= 80) {
+        std::cout << "Great score!" << std::endl;
+    } else if (player.score >= 60) {
+        std::cout << "Could be better. Maybe next time." << std::endl;
+    } else if (player.score >= 50) {
+        std::cout << "Might need a bit of studying." << std::endl;
+    } else {
+        std::cout << "Hit the books and try again later." << std::endl;
+    }
+
+    std::cout << std::endl;
+}
+
+
+// MAIN 
 int main() {
 
-    // Initialize a player struct
     struct Player Player1;
-    
+    int menu_choice;
+
     // Variables for the banner and menu borders
     std::string stars(31, '*');
     std::string spaces(10, ' ');
     std::string border(9, '*');
-
-    // Variable for main menu choice
-    int menu_choice;
+    std::string clear_screen(50, '\n');
 
     // Multidimensional vector to hold the trivia category data
     // Each row will be the question, correct answer, and answer choices
     // for each question presented to the user.
     std::vector< std::vector<std::string> > questions_and_answers;
 
-
-    // Print a pretty banner
-    std::cout << std::endl;
+    // Clear the screen then print a pretty banner
+    std::cout << clear_screen << std::endl;
     std::cout << stars << std::endl;
-    std::cout << spaces;
-    std::cout << "TRIVIA GAME";
-    std::cout << spaces << std::endl;
+    std::cout << spaces << "TRIVIA GAME" << spaces << std::endl;
     std::cout << stars << std::endl;
-   
     std::cout << std::endl;
 
     // Print the main menu
@@ -176,25 +191,25 @@ int main() {
         switch (menu_choice) {
             case 1:
                 std::cout << std::endl;
-                std::cout << "GENERAL TRIVIA" << std::endl;
+                std::cout << "*GENERAL TRIVIA*" << std::endl;
                 std::cout << std::endl;
                 get_questions("GeneralTrivia.csv", questions_and_answers);
                 break;
             case 2:
                 std::cout << std::endl;
-                std::cout << "EIGHTIES TRIVIA" << std::endl;
+                std::cout << "*EIGHTIES TRIVIA*" << std::endl;
                 std::cout << std::endl;
                 get_questions("EightiesTrivia.csv", questions_and_answers);
                 break;
             case 3:
                 std::cout << std::endl;
-                std::cout << "MOVIE TRIVIA" << std::endl;
+                std::cout << "*MOVIE TRIVIA*" << std::endl;
                 std::cout << std::endl;
                 get_questions("MovieTrivia.csv", questions_and_answers);
                 break;
             case 4:
                 std::cout << std::endl;
-                std::cout << "MUSIC TRIVIA" << std::endl;
+                std::cout << "*MUSIC TRIVIA*" << std::endl;
                 std::cout << std::endl;
                 get_questions("MusicTrivia.csv", questions_and_answers);
                 break;
@@ -206,36 +221,20 @@ int main() {
         }
     }
 
-
-    std::cout << "Please enter your name: ";
-    std::cin >> Player1.name;
-
-    std::cout << "Hi " << Player1.name << ", let's get started!" << std::endl;
-    std::cout << std::endl;
     std::cout << "Type 'q' at any time to quit" << std::endl;
-    std::cout << stars << std::endl;
     std::cout << std::endl;
+    std::cout << "Press enter to continue" << std::endl;
+    std::getchar();
+    std::cin.get();
+    std::cout << clear_screen;
 
     // Ask the questions
     ask_questions(questions_and_answers, Player1);
     
     // Give the player their score and an appropriate congratulations
-    std::cout << "Thanks for playing, " << Player1.name << "!" << std::endl;
+    std::cout << "Thanks for playing! " << std::endl;
     std::cout << "Your final score: " << Player1.score << std::endl;
-
-    if (Player1.score == 100) {
-        std::cout << "Congratulations! Perfect score!" << std::endl;
-    } else if (Player1.score >= 80) {
-        std::cout << "Great score!" << std::endl;
-    } else if (Player1.score >= 60) {
-        std::cout << "Could be better. Maybe next time." << std::endl;
-    } else if (Player1.score >= 50) {
-        std::cout << "Might need a bit of studying." << std::endl;
-    } else {
-        std::cout << "Hit the books and try again later." << std::endl;
-    }
-
-    std::cout << std::endl;
+    congrats(Player1);    
 
     return 0;
 }
