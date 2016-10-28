@@ -17,7 +17,9 @@ struct Player {
 // Function to take the file needed for the questions, open it, add the
 // info to a vector, then close the file. It will also randomly shuffle
 // the rows of the category data vector, so that each time the program is 
-// run, it will present the questions in a different order.
+// run, it will present the questions in a different order. Since the 
+// ask_questions function only presents 10 questions to the user, given a 
+// large enough data file, each run should be quite different from the last.
 //
 // Arguments taken: the file to be used as input, and a reference to 
 // the vector where the information will be stored.
@@ -25,12 +27,12 @@ struct Player {
 // Returns: no return value. Function will write the file data to a
 // vector, questions_and_answers
 void get_questions(std::string file, 
-                   std::vector< std::vector<std::string> >& 
-                   q_and_a) {
+                   std::vector< std::vector<std::string> >& q_and_a) {
     
     std::ifstream category_file;
     std::string line;
     std::string tok;
+    // Seed for the random generator
     unsigned int seed = 
         std::chrono::system_clock::now().time_since_epoch().count();
 
@@ -57,28 +59,8 @@ void get_questions(std::string file,
     category_file.close();
 
     // Randomly sort the rows of the category data vecor
-    std::shuffle(begin(q_and_a), std::end(q_and_a), 
+    std::shuffle(std::begin(q_and_a), std::end(q_and_a), 
                  std::default_random_engine(seed));
-}
-
-
-// Function to test if the player response is correct.
-//
-// Arguments taken: a string of the vector element holding the 
-// correct answer, and player response. 
-//
-// Returns: correct or incorrect.
-std::string test_response(std::string correct_answer, 
-                          std::string player_response) {
-    
-    if (player_response == "q") {
-        std::exit(0);
-    } else if (player_response == correct_answer) {
-        return "correct";
-    } else {
-        return "incorrect";
-    }
-
 }
 
 
@@ -91,7 +73,7 @@ void ask_questions(std::vector< std::vector<std::string> > q_and_a,
                    Player& player) {
 
     int i = 0;
-    std::string player_response;
+    char player_response;
     std::string clear_screen(50, '\n');
 
     // Ask only 10 questions from the category data file
@@ -110,9 +92,15 @@ void ask_questions(std::vector< std::vector<std::string> > q_and_a,
         std::cout << "Response: ";
         std::cin >> player_response;
 
-        if (player_response == "q") {
+        // Make the player response lowercase, if it isn't
+        player_response = std::tolower(player_response);
+
+        // Since the correct answer (index [i][1]) is a string in the vector,
+        // and it's just a single letter, we'll just grab the zeroth index of
+        // it so we can compare it to a char in the else if clause
+        if (player_response == 'q') {
             std::exit(0);
-        } else if (q_and_a[i][1] == player_response) {
+        } else if (player_response == q_and_a[i][1][0]) {
             std::cout << "*That's correct!*" << std::endl;
             player.score += 10;
         } else {
@@ -190,7 +178,7 @@ int main() {
 
     std::cout << "Selection: ";
 
-    // Make sure the player can only enter choices presented on the menu.
+    // Make sure the player can only enter choices presented on the menu.(WIP)
     // The user will choose the category of trivia they want to play.
     // For each category option, the category questions and answers file
     // will be passed to the get_questions function, along with the vector
