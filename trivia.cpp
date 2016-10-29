@@ -3,7 +3,7 @@
 #include <sstream>      // std::istringstream
 #include <fstream>      // std::ifstream
 #include <vector>       // std::vector
-#include <algorithm>    // std::random_shuffle
+#include <algorithm>    // std::shuffle
 #include <random>       // std::default_random_engine
 #include <chrono>       // std::chrono::system_clock
 
@@ -121,7 +121,7 @@ void ask_questions(std::vector< std::vector<std::string> > q_and_a,
 //
 // Arguments taken: a reference to the player struct
 //
-// Return value: No return value, just prints layer score and congratulations
+// Return value: No return value, just prints player score and congratulations
 void congrats(Player& player) {
 
     if (player.score == 100) {
