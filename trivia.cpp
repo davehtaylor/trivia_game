@@ -1,3 +1,18 @@
+// This is a trivia game that presents the user with different categories
+// of trivia to choose from, and then asks ten multiple choice questions.
+// When the program is run, and the user has chosen their category, it will
+// pull the questions and answers from the appropriate csv file and store that
+// info in a multi-dimensional vector. The csv files contain more than ten
+// questions, so when the program runs, it will pull all of the info into the
+// data vector, randomly shuffle it, then present only the first ten of that
+// shuffled vector. 
+//
+// As the game progresses, the player is awarded ten points for correct
+// answers, and no points for incorrect answers. The payer sees their running
+// score during the game. When the game ends, the player is presented with 
+// their final score, and a congratulation based on the score. 
+
+
 #include <iostream>
 #include <string>       // std::string
 #include <sstream>      // std::istringstream
