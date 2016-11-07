@@ -23,10 +23,23 @@
 #include <chrono>       // std::chrono::system_clock
 
 
-// Struct to hold player score
-struct Player {
-    int score = 0;
+// Class for player
+class Player {
+        int score = 0;
+    public:
+        void increase_score(int i);
+        int read_score(void);
 };
+
+// Player method to increase score by the amount passed to the method.
+void Player::increase_score(int i) {
+    score += i;
+}
+
+// Player method to read player's score
+int Player::read_score(void) {
+    return score;
+}
 
 
 // Function to take the file needed for the questions, open it, add the
@@ -81,7 +94,7 @@ void get_questions(std::string file,
 
 // Function to present the questions to the player.
 //
-// Arguments taken: category data vector, reference to player struct
+// Arguments taken: category data vector, reference to player class
 //
 // Returns: no return value
 void ask_questions(std::vector< std::vector<std::string> > q_and_a,
@@ -93,7 +106,7 @@ void ask_questions(std::vector< std::vector<std::string> > q_and_a,
 
     // Ask only 10 questions from the category data file
     while (i < 10) {
-        std::cout << "Current score: " << player.score << std::endl;
+        std::cout << "Current score: " << player.read_score() << std::endl;
         std::cout << std::endl;
 
         std::cout << q_and_a[i][0] << std::endl;
@@ -117,7 +130,7 @@ void ask_questions(std::vector< std::vector<std::string> > q_and_a,
             std::exit(0);
         } else if (player_response == q_and_a[i][1][0]) {
             std::cout << "*That's correct!*" << std::endl;
-            player.score += 10;
+            player.increase_score(10);
         } else {
             std::cout << "*Sorry, that's incorrect*" << std::endl;
         }
@@ -139,13 +152,13 @@ void ask_questions(std::vector< std::vector<std::string> > q_and_a,
 // Return value: No return value, just prints player score and congratulations
 void congrats(Player& player) {
 
-    if (player.score == 100) {
+    if (player.read_score() == 100) {
         std::cout << "Congratulations! Perfect score!" << std::endl;
-    } else if (player.score >= 80) {
+    } else if (player.read_score() >= 80) {
         std::cout << "Great score!" << std::endl;
-    } else if (player.score >= 60) {
+    } else if (player.read_score() >= 60) {
         std::cout << "Could be better. Maybe next time." << std::endl;
-    } else if (player.score >= 50) {
+    } else if (player.read_score() >= 50) {
         std::cout << "Might need a bit of studying." << std::endl;
     } else {
         std::cout << "Hit the books and try again later." << std::endl;
@@ -158,7 +171,7 @@ void congrats(Player& player) {
 // MAIN 
 int main() {
 
-    struct Player Player1;
+    Player Player1;
     int menu_choice;
 
     // Variables for the banner and menu borders
@@ -247,7 +260,7 @@ int main() {
     
     // Give the player their score and an appropriate congratulations
     std::cout << "Thanks for playing! " << std::endl;
-    std::cout << "Your final score: " << Player1.score << std::endl;
+    std::cout << "Your final score: " << Player1.read_score() << std::endl;
     congrats(Player1);    
 
     return 0;
